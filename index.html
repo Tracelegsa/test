@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>라인 배정 주작불가능 반박거절</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            margin: 20px;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        select, button {
+            margin: 10px;
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        }
+        select {
+            background: #ffffff;
+            color: #333;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .result {
+            margin-top: 30px;
+            font-size: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+        .lane-result {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            width: 200px;
+        }
+        .lane-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+        .lane-text {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+            color: #FFD700;
+        }
+        .player-name {
+            font-size: 16px;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>라인 배정 주작불가능 반박거절</h1>
+    <div>
+        <div>
+            <select id="player1">
+                <option value="">플레이어 1 선택</option>
+                <option value="조재현">조재현</option>
+                <option value="강기훈">강기훈</option>
+                <option value="김민석">김민석</option>
+                <option value="최명기">최명기</option>
+                <option value="이재욱">이재욱</option>
+                <option value="정진수">정진수</option>
+            </select>
+        </div>
+        <div>
+            <select id="player2">
+                <option value="">플레이어 2 선택</option>
+                <option value="조재현">조재현</option>
+                <option value="강기훈">강기훈</option>
+                <option value="김민석">김민석</option>
+                <option value="최명기">최명기</option>
+                <option value="이재욱">이재욱</option>
+                <option value="정진수">정진수</option>
+            </select>
+        </div>
+        <div>
+            <select id="player3">
+                <option value="">플레이어 3 선택</option>
+                <option value="조재현">조재현</option>
+                <option value="강기훈">강기훈</option>
+                <option value="김민석">김민석</option>
+                <option value="최명기">최명기</option>
+                <option value="이재욱">이재욱</option>
+                <option value="정진수">정진수</option>
+            </select>
+        </div>
+        <div>
+            <select id="player4">
+                <option value="">플레이어 4 선택</option>
+                <option value="조재현">조재현</option>
+                <option value="강기훈">강기훈</option>
+                <option value="김민석">김민석</option>
+                <option value="최명기">최명기</option>
+                <option value="이재욱">이재욱</option>
+                <option value="정진수">정진수</option>
+            </select>
+        </div>
+        <div>
+            <select id="player5">
+                <option value="">플레이어 5 선택</option>
+                <option value="조재현">조재현</option>
+                <option value="강기훈">강기훈</option>
+                <option value="김민석">김민석</option>
+                <option value="최명기">최명기</option>
+                <option value="이재욱">이재욱</option>
+                <option value="정진수">정진수</option>
+            </select>
+        </div>
+        <button onclick="assignLanes()">라인 배정하기</button>
+    </div>
+    <div class="result" id="result"></div>
+
+    <script>
+        const lanes = ["탑", "정글", "미드", "원딜", "서폿"];
+        const playerIcons = {
+            "조재현": "images/조재현.jpg",
+            "강기훈": "images/강기훈.jpg",
+            "김민석": "images/김민석.jpg",
+            "최명기": "images/최명기.jpg",
+            "이재욱": "images/이재욱.jpg",
+            "정진수": "images/정진수.jpg"
+        };
+
+        function assignLanes() {
+            const players = [
+                document.getElementById("player1").value.trim(),
+                document.getElementById("player2").value.trim(),
+                document.getElementById("player3").value.trim(),
+                document.getElementById("player4").value.trim(),
+                document.getElementById("player5").value.trim()
+            ];
+
+            const selectedPlayers = new Set(players);
+            if (selectedPlayers.size !== players.length || players.includes("")) {
+                alert("모든 플레이어를 중복 없이 선택해주세요!");
+                return;
+            }
+
+            for (let i = players.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [players[i], players[j]] = [players[j], players[i]];
+            }
+
+            const resultDiv = document.getElementById("result");
+            resultDiv.innerHTML = "";
+
+            players.forEach((player, index) => {
+                const lane = lanes[index];
+
+                const laneResultDiv = document.createElement("div");
+                laneResultDiv.classList.add("lane-result");
+
+                const playerIcon = document.createElement("img");
+                playerIcon.src = playerIcons[player] || "images/default.jpg";
+                playerIcon.classList.add("lane-icon");
+
+                const laneText = document.createElement("div");
+                laneText.textContent = lane;
+                laneText.classList.add("lane-text");
+
+                const playerName = document.createElement("div");
+                playerName.textContent = player;
+                playerName.classList.add("player-name");
+
+                laneResultDiv.appendChild(playerIcon);
+                laneResultDiv.appendChild(laneText);
+                laneResultDiv.appendChild(playerName);
+                resultDiv.appendChild(laneResultDiv);
+            });
+        }
+    </script>
+</body>
+</html>
